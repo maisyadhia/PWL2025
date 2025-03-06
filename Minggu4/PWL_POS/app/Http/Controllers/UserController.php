@@ -17,11 +17,14 @@ class UserController extends Controller
         'nama' =>'Manager 3',
         'password' => Hash::make (' 12345')
     ];
-    UserModel::create($data);
+    // UserModel::create($data);
     //UserModel::where('username', 'customer-1')->update($data);
 
     // Akses model UserModel untuk mengambil semua data dari tabel m_user
-    $user = UserModel::all();
+    // $user = UserModel::find(1);
+    $user = UserModel::findOr(20, ['username', 'nama'], function (){
+        abort (404) ;
+    }) ;
     return view('user', ['data' => $user]);
 }
 }

@@ -11,12 +11,12 @@ class UserController extends Controller
     public function index()
 {
     // Mengupdate data user dengan username 'customer-1'
-    $data = [
-        'level_id' => 2,
-        'username' => 'manager_tiga',
-        'nama' =>'Manager 3',
-        'password' => Hash::make (' 12345')
-    ];
+    // $data = [
+    //     'level_id' => 2,
+    //     'username' => 'manager_tiga',
+    //     'nama' =>'Manager 3',
+    //     'password' => Hash::make (' 12345')
+    // ];
     // UserModel::create($data);
     //UserModel::where('username', 'customer-1')->update($data);
 
@@ -25,8 +25,17 @@ class UserController extends Controller
     // $user = UserModel::where('level_id', 2) -> count();
     // dd($user);
    // Menghitung jumlah user dengan level_id = 2
-   $jumlahUser = UserModel::where('level_id', 2)->count(); 
-   return view('user', ['jumlahUser' => $jumlahUser]);
+    //$jumlahUser = UserModel::where('level_id', 2)->count(); 
+    $user = UserModel::firstOrNew(
+        [
+            'username' => 'manager33',
+            'nama' => 'Manager tiga tiga',
+            'password' => Hash::make('12345'),
+            'level_id' => 2
+        ],
+    ) ;
+    $user->save();
+    return view('user', ['data' => $user]);
 }
 }
 

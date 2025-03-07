@@ -26,16 +26,26 @@ class UserController extends Controller
     // dd($user);
    // Menghitung jumlah user dengan level_id = 2
     //$jumlahUser = UserModel::where('level_id', 2)->count(); 
-    $user = UserModel::firstOrNew(
+    $user = UserModel::create(
         [
-            'username' => 'manager33',
-            'nama' => 'Manager tiga tiga',
+            'username' => 'manager11',
+            'nama' => 'Manager11',
             'password' => Hash::make('12345'),
             'level_id' => 2
         ],
     ) ;
+
+    $user->username = 'manager12';
+
     $user->save();
-    return view('user', ['data' => $user]);
+
+    $user->wasChanged(); // true
+    $user->wasChanged ('username'); // true
+    $user->wasChanged ( ['username', 'level_id']); // true
+    $user->wasChanged ('nama'); // false
+    $user->wasChanged (['nama', 'username']); // true
+    dd($user->wasChanged (['nama', 'username'])) ; // true
+    // return view('user', ['data' => $user]);
 }
 }
 

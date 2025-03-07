@@ -26,14 +26,17 @@ class UserController extends Controller
     // dd($user);
    // Menghitung jumlah user dengan level_id = 2
     //$jumlahUser = UserModel::where('level_id', 2)->count(); 
-    $user = UserModel::all(
+
+    // $user = UserModel::all(
         // [
         //     'username' => 'manager11',
         //     'nama' => 'Manager11',
         //     'password' => Hash::make('12345'),
         //     'level_id' => 2
         // ],
-    ) ;
+    // ) ;
+    $user= UserModel::with('level')->get();
+    // dd($user);
     return view('user', ['data' => $user]);
     }
 

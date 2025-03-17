@@ -309,6 +309,11 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+        [
+            'text' => 'Kategori',
+            'url'  => 'kategori',
+            'icon' => 'fas fa-fw fa-list',
+        ],
 
         // Sidebar items:
         [

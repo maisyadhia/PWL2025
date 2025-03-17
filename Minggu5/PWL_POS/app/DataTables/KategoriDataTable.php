@@ -18,10 +18,23 @@ namespace App\DataTables;
      * 
 *	@param QueryBuilder $query Results from query() method. 
      */     public function dataTable(QueryBuilder $query): EloquentDataTable 
-    {         return (new EloquentDataTable($query)) 
-/*             ->addColumn('action', 'kategori.action') */ 
-            ->setRowId('id'); 
-    } 
+{         
+    return (new EloquentDataTable($query))
+        ->addColumn('action', function ($row) {
+            return '
+                <a href="'.route('kategori.edit', $row->kategori_id).'" class="btn btn-warning btn-sm">Edit</a>
+                <form action="'.route('kategori.destroy', $row->kategori_id).'" method="POST" style="display:inline;">
+                    '.csrf_field().'
+                    '.method_field('DELETE').'
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Yakin ingin menghapus?\')">Delete</button>
+                </form>
+            ';
+        })
+    
+        ->rawColumns(['action'])
+        ->setRowId('id'); 
+}
+
  
     /** 
 *	Get the query source of dataTable. 
@@ -52,19 +65,21 @@ namespace App\DataTables;
     /** 
      * Get the dataTable columns definition. 
      */     public function getColumns(): array 
-    {         return [ 
-    /*         Column::computed('action') 
-                  ->exportable(false) 
-                  ->printable(false) 
-                  ->width(60) 
-                  ->addClass('text-center'), */ 
+    {         
+        return [ 
             Column::make('kategori_id'), 
             Column::make('kategori_kode'), 
             Column::make('kategori_nama'), 
             Column::make('created_at'), 
             Column::make('updated_at'), 
+            Column::computed('action') 
+                ->exportable(false) 
+                ->printable(false) 
+                ->width(100) 
+                ->addClass('text-center'), 
         ]; 
-    } 
+    }
+
  
     /** 
      * Get the filename for export. 

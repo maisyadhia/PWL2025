@@ -10,8 +10,8 @@
             <input type="text" class="form-control" name="level_kode" required>
         </div>
         <div class="mb-3">
-            <label for="level_name" class="form-label">Nama Level</label>
-            <input type="text" class="form-control" name="level_name" required>
+            <label for="level_nama" class="form-label">Nama Level</label>
+            <input type="text" class="form-control" name="level_nama" required>
         </div>
         <button type="submit" class="btn btn-success">Simpan</button>
         <a href="{{ route('level.index') }}" class="btn btn-secondary">Kembali</a>

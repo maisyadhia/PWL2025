@@ -21,10 +21,10 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
-                            <select class="form-control" id="level_id" name="level_id" required>
+                            <select class="form-control" id="level_id" nama="level_id" required>
                                 <option value="">- Semua -</option>
                                 @foreach($level as $item)
-                                    <option value="{{ $item->level_id }}">{{ $item->level_name }}</option>
+                                    <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Level Pengguna</small>
@@ -65,10 +65,10 @@
                     }
                 },
                 columns: [
-                    { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                    { data: "level_kode", className: "", orderable: true, searchable: true },
-                    { data: "level_name", className: "", orderable: true, searchable: true },
-                    { data: "aksi", className: "text-center", orderable: false, searchable: false }
+                    { data: "DT_RowIndex", classname: "text-center", orderable: false, searchable: false },
+                    { data: "level_kode", classname: "", orderable: true, searchable: true },
+                    { data: "level_nama", classname: "", orderable: true, searchable: true },
+                    { data: "aksi", classname: "text-center", orderable: false, searchable: false }
                 ]
             });
             $('#level_id').on('change', function(){

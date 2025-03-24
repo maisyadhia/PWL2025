@@ -108,13 +108,13 @@ class LevelController extends Controller
     {
         $request->validate([
             'level_kode' => 'required|string|unique:m_level,level_kode,' . $id . ',level_id',
-            'level_name' => 'required|string'
+            'level_nama' => 'required|string'
         ]);
 
         $level = LevelModel::findOrFail($id);
         $level->update([
             'level_kode' => $request->level_kode,
-            'level_name' => $request->level_name
+            'level_nama' => $request->level_nama
         ]);
 
         return redirect('/level')->with('success', 'Data Level berhasil diperbarui');

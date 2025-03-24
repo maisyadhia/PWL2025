@@ -34,7 +34,7 @@ class LevelDataTable extends DataTable
     {
         return [
             Column::make('level_code'),
-            Column::make('level_name'),
+            Column::make('level_nama'),
             Column::make('created_at'),
             Column::computed('action')
                 ->exportable(false)

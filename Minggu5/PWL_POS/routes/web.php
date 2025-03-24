@@ -5,6 +5,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WelcomeController;
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
@@ -27,6 +28,7 @@ Route::resource('kategori', KategoriController::class);
 Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
 Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
 
+Route::get('/', [WelcomeController:: class, 'index']);
 // Route::get ('/kategori',[KategoriController::class,'index']);
 
 // Route::get('/kategori/create',[KategoriController::class,'create']);

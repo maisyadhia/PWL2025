@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class KategoriModel extends Model
 {
-    protected $table = 'm_kategori';
-    protected $primaryKey = 'kategori_id';
-    public $timestamps = false;
-    protected $fillable = ['kategori_kode', 'kategori_nama','created_at', 'updated_at'];
+    use HasFactory;
 
-    // public function barang(): HasMany
-    // {
-    //     return $this->hasMany(BarangModel::class, 'barang_id', 'barang_id');
-    // }
+    protected $table = 'm_kategori'; // Sesuaikan dengan nama tabel di database
+    protected $primaryKey = 'kategori_id'; // Sesuaikan dengan primary key tabel
+    public $timestamps = false; // Ubah ke true jika tabel punya created_at dan updated_at
+
+    protected $fillable = ['kategori_kode', 'kategori_nama']; // Sesuaikan dengan kolom di tabel
 }

@@ -1,32 +1,28 @@
-@extends ('layouts.app')
+@extends('layouts.template')
 
-@section ('subtitle', 'Edit Kategori')
-@section ('content_header_title', 'Edit Kategori')
-@section ('content')
+@section('content')
+<div class="card card-outline card-primary">
+    <div class="card-header">
+        <h3 class="card-title">{{ $page->title }}</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ route('kategori.update', $kategori->kategori_id) }}">
+            @csrf
+            @method('PUT')
 
-<div class="container">
-    <div class="card">
-        <div class="card-header">Edit Kategori</div>
-        <div class="card-body">
-            <form action="{{ route('kategori.update', $kategori->kategori_id) }}" method="POST">
-                @csrf
-                @method('PUT')
+            <div class="form-group">
+                <label>Kode Kategori</label>
+                <input type="text" class="form-control" name="kategori_kode" value="{{ $kategori->kategori_kode }}" required>
+            </div>
 
-                <div class="mb-3">
-                    <label for="kodeKategori" class="form-label">Kode Kategori</label>
-                    <input type="text" class="form-control" name="kodeKategori" value="{{ $kategori->kategori_kode }}" required>
-                </div>
+            <div class="form-group">
+                <label>Nama Kategori</label>
+                <input type="text" class="form-control" name="kategori_nama" value="{{ $kategori->kategori_nama }}" required>
+            </div>
 
-                <div class="mb-3">
-                    <label for="namaKategori" class="form-label">Nama Kategori</label>
-                    <input type="text" class="form-control" name="namaKategori" value="{{ $kategori->kategori_nama }}" required>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{{ route('kategori.index') }}" class="btn btn-secondary">Batal</a>
-            </form>
-        </div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="{{ route('kategori.index') }}" class="btn btn-default">Kembali</a>
+        </form>
     </div>
 </div>
-
 @endsection

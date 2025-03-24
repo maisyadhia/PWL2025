@@ -1,5 +1,4 @@
 <?php 
- 
 
 namespace App\DataTables; 
  use App\Models\KategoriModel; use 
@@ -32,7 +31,7 @@ namespace App\DataTables;
         })
     
         ->rawColumns(['action'])
-        ->setRowId('id'); 
+        ->setRowId('kategori_id');
 }
 
  

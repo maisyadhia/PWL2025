@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WelcomeController;
 
+
+
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 
@@ -25,33 +27,49 @@ Route::group(['prefix' => 'user'], function () {
     Route::put ('/{id}', [UserController::class, 'update']);// menyimpan perubahan data user
     Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
 });
-// Route::get('/level', [LevelController::class, 'index']);
-// Route::get('/kategori', [KategoriController::class, 'index']);
-// Route::get('/user', [UserController::class, 'index']);
-// Route::get('/user/tambah', [UserController::class, 'tambah']) ;
-// Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
-// Route::get ('/user/ubah/{id}', [UserController::class, 'ubah']);
-// Route::put ('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
-// Route::get ('/user/hapus/{id}', [UserController:: class, 'hapus']);
 
-Route::resource('kategori', KategoriController::class);
-Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
-Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
+Route::group(['prefix' => 'level'], function () {
+    Route::get('/', [LevelController::class, 'index'])->name('level.index'); // Menampilkan daftar level
+    Route::post('/list', [LevelController::class, 'getLevels'])->name('level.list'); // DataTables JSON
+    Route::get('/create', [LevelController::class, 'create'])->name('level.create'); // Form tambah
+    Route::post('/', [LevelController::class, 'store'])->name('level.store'); // Simpan data baru
+    Route::get('/{id}', [LevelController::class, 'show'])->name('level.show'); // Menampilkan detail level
+    Route::get('/{id}/edit', [LevelController::class, 'edit'])->name('level.edit'); // Form edit
+    Route::put('/{id}', [LevelController::class, 'update'])->name('level.update'); // Simpan perubahan
+    Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy'); // Hapus level
+});
+
+
+// Route::resource('kategori', KategoriController::class);
+// Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+// Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
 
 Route::get('/', [WelcomeController:: class, 'index']);
-// Route::get ('/kategori',[KategoriController::class,'index']);
 
-// Route::get('/kategori/create',[KategoriController::class,'create']);
-// Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
-// Route::post('/kategori',[KategoriController::class,'store']);
-// Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
+Route::resource('levels', LevelController::class)->except(['create', 'edit']); 
+Route::get('/levels/data', [LevelController::class, 'getData'])->name('levels.data');
+
+Route::resource('kategori', KategoriController::class);
+Route::resource('supplier', SupplierController::class);
+Route::resource('product', ProductController::class);
+
+
+// Route::resource('levels', LevelController::class); // Menambahkan resource route untuk level
+// Route::resource('levels', LevelController::class);
+// Route::resource('categories', CategoryController::class);
+// Route::resource('suppliers', SupplierController::class);
+// Route::resource('products', ProductController::class);
+
+// Route::resource('product', ProductController::class);
+// Route::resource('supplier', SupplierController::class);
+// Route::resource('level', LevelController::class);
+// Route::resource('levels', LevelController::class);
+
+// Route::get('/levels', [LevelController::class, 'index'])->name('levels.index');
+// Route::get('/levels/data', [LevelController::class, 'getData'])->name('levels.data');
 
 
 
-// Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
-
-// Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-// //Route::get('/kategori/data', [KategoriDataTable::class, 'ajax'])->name('kategori.data');
-// Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
 
 

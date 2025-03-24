@@ -14,6 +14,9 @@
         <h1 class="text-muted">
             @yield('content_header_title')
 
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
+            
             @hasSection('content_header_subtitle')
                 <small class="text-dark">
                     <i class="fa-xs fa fa-angle-right text-muted"></i>
@@ -44,6 +47,10 @@
 {{-- Add common JavaScript/jQuery code --}}
 @push('js')
     <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+   
 @endpush
 
 @stack('scripts')

@@ -11,8 +11,8 @@
             <input type="text" name="nama_supplier" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="kontak" class="form-label">Kontak</label>
-            <input type="text" name="kontak" class="form-control" required>
+            <label for="supplier_kontak" class="form-label">supplier_kontak</label>
+            <input type="text" name="supplier_kontak" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="alamat" class="form-label">Alamat</label>

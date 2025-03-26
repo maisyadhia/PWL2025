@@ -13,8 +13,8 @@
             <div class="form-group row">
                 <label class="col-2 control-label col-form-label">Nama Supplier</label>
                 <div class="col-10">
-                    <input type="text" class="form-control" id="supplier_nama" name="supplier_nama" value="{{ old('supplier_nama', $supplier->supplier_nama) }}" required>
-                    @error('supplier_nama')
+                    <input type="text" class="form-control" id="nama_supplier" name="nama_supplier" value="{{ old('nama_supplier', $supplier->nama_supplier) }}" required>
+                    @error('nama_supplier')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -33,8 +33,8 @@
             <div class="form-group row">
                 <label class="col-2 control-label col-form-label">Alamat</label>
                 <div class="col-10">
-                    <textarea class="form-control" id="supplier_alamat" name="supplier_alamat" required>{{ old('supplier_alamat', $supplier->supplier_alamat) }}</textarea>
-                    @error('supplier_alamat')
+                    <textarea class="form-control" id="alamat" name="alamat" required>{{ old('alamat', $supplier->alamat) }}</textarea>
+                    @error('alamat')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>

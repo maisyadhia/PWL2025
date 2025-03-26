@@ -33,8 +33,10 @@ class SupplierDataTable extends DataTable
     public function getColumns()
 {
     return [
-        Column::make('supplier_nama'), // Update to 'supplier_nama'
-        Column::make('supplier_id'),  // Update to 'supplier_id'
+        Column::make('supplier_id'),
+        Column::make('nama_supplier'),
+        Column::make('supplier_kontak'), // Ditambahkan agar sesuai dengan tabel
+        Column::make('alamat'), // Ditambahkan agar sesuai dengan tabel
         Column::make('created_at'),
         Column::computed('action')
             ->exportable(false)
@@ -42,7 +44,6 @@ class SupplierDataTable extends DataTable
             ->addClass('text-center'),
     ];
 }
-
 
     protected function filename()
     {

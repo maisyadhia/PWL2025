@@ -8,7 +8,7 @@
         <table class="table table-bordered">
             <tr>
                 <th>Nama Supplier</th>
-                <td>{{ $supplier->supplier_nama }}</td>
+                <td>{{ $supplier->nama_supplier }}</td>
             </tr>
             <tr>
                 <th>Kontak</th>
@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <th>Alamat</th>
-                <td>{{ $supplier->supplier_alamat }}</td>
+                <td>{{ $supplier->alamat }}</td>
             </tr>
         </table>
         <a href="{{ route('supplier.index') }}" class="btn btn-secondary">Kembali</a>
@@ -33,7 +33,7 @@
 @endsection
 
 {{-- Halaman Detail Level --}}
-@extends('layouts.template')
+{{-- @extends('layouts.template')
 
 @section('content')
     <div class="card card-outline card-primary">
@@ -65,4 +65,4 @@
             @endisset
         </div>
     </div>
-@endsection
+@endsection --}}

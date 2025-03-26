@@ -7,17 +7,26 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\BarangController;
 
 
 
 
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+// Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+
+// Route::resource('supplier', SupplierController::class);
+// Route::post('/supplier/list', [SupplierController::class, 'getSuppliers'])->name('supplier.list');
 
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', [WelcomeController:: class, 'index']);
+
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 Route::group(['prefix' => 'user'], function () {
     Route::get ('/', [UserController::class, 'index']);// menampilkan halaman awal user
@@ -52,15 +61,14 @@ Route::group(['prefix' => 'kategori'], function () {
     Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy'); // Hapus kategori
 });
 
-Route::group(['prefix' => 'barang'], function () {
-    Route::get('/', [BarangController::class, 'index'])->name('barang.index');
-    Route::post('/list', [BarangController::class, 'getBarang'])->name('barang.list');
-    Route::get('/create', [BarangController::class, 'create'])->name('barang.create');
-    Route::post('/', [BarangController::class, 'store'])->name('barang.store');
-    Route::get('/{id}', [BarangController::class, 'show'])->name('barang.show');
-    Route::get('/{id}/edit', [BarangController::class, 'edit'])->name('barang.edit');
-    Route::put('/{id}', [BarangController::class, 'update'])->name('barang.update');
-    Route::delete('/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+Route::group(['prefix'=>'barang'],function(){
+    Route::get('/',[BarangController::class,'index']);
+    Route::post('/list',[BarangController::class,'list']);
+    Route::get('/create',[BarangController::class,'create']);
+    Route::post('/',[BarangController::class,'store']);
+    Route::get('/{id}/edit', [BarangController::class,'edit']);
+    Route::put('/{id}', [BarangController::class,'update']);
+    Route::delete('/{id}',[BarangController::class,'destroy']);
 });
 
 Route::group(['prefix' => 'supplier'], function () {
@@ -83,9 +91,7 @@ Route::group(['prefix' => 'supplier'], function () {
 // Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
 // Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
 
-Route::get('/', [WelcomeController:: class, 'index']);
 
-Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::resource('levels', LevelController::class)->except(['create', 'edit']); 
 Route::get('/levels/data', [LevelController::class, 'getData'])->name('levels.data');
 

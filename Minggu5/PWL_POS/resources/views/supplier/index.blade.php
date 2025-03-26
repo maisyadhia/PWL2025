@@ -3,7 +3,7 @@
 @section('content')
     <div class="card card-outline card-primary">
         <div class="card-header">
-            <h3 class="card-title">Daftar Supplier</h3>
+            <h3 class="card-title">{{ $page->title ?? 'Daftar Supplier' }}</h3>
             <div class="card-tools">
                 <a class="btn btn-sm btn-primary mt-1" href="{{ route('supplier.create') }}">Tambah Supplier</a>
             </div>
@@ -26,9 +26,8 @@
                             <select class="form-control" id="supplier_id" name="supplier_id">
                                 <option value="">- Semua Supplier -</option>
                                 @foreach($supplier as $item)
-                                    <option value="{{ $item->supplier_id }}">{{ $item->supplier_nama }}</option>
+                                    <option value="{{ $item->supplier_id }}">{{ $item->nama_supplier }}</option>
                                 @endforeach
-
                             </select>
                             <small class="form-text text-muted">Pilih supplier untuk filter</small>
                         </div>
@@ -52,7 +51,7 @@
 @endsection
 
 @push('css')
-<!-- Bisa tambahkan CSS jika diperlukan -->
+<!-- Tambahkan CSS jika diperlukan -->
 @endpush
 
 @push('js')
@@ -61,25 +60,27 @@
         var dataSupplier = $('#supplierTable').DataTable({
             processing: true,
             serverSide: true,
-            "ajax": {
-            "url": "{{ route('supplier.list') }}",
-            "type": "POST",
-            "dataType": "json",
-            "data": function (d) {
-                d.supplier_id = $('#supplier_id').val();
+            ajax: {
+                url: "{{ route('supplier.list') }}",
+                type: "POST",
+                dataType: "json",
+                data: function (d) {
+                    d.supplier_id = $('#supplier_id').val();
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             },
-            }
             columns: [
                 { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                { data: "supplier_nama", className: "", orderable: true, searchable: true },
-                { data: "supplier_kontak", className: "", orderable: true, searchable: true },
-                { data: "supplier_alamat", className: "", orderable: true, searchable: true },
+                { data: "nama_supplier", orderable: true, searchable: true },
+                { data: "supplier_kontak", orderable: true, searchable: true },
+                { data: "alamat", orderable: true, searchable: true },
                 { data: "aksi", className: "text-center", orderable: false, searchable: false }
             ]
         });
 
-        // Filter berdasarkan dropdown supplier
-        $('#supplier_id').on('change', function(){
+        $('#supplier_id').change(function() {
             dataSupplier.ajax.reload();
         });
     });

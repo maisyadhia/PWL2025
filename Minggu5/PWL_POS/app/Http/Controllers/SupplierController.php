@@ -27,33 +27,53 @@ class SupplierController extends Controller
 
     }
 
-    public function getSuppliers(Request $request)
-    {
-    $query = SupplierModel::query();
-    
+    public function list(Request $request)
+{
+    $query = Supplier::select('supplier_id', 'nama_supplier', 'supplier_kontak', 'alamat');
+
     if ($request->supplier_id) {
         $query->where('supplier_id', $request->supplier_id);
     }
-    
-    $data = $query->select('supplier_id', 'supplier_nama', 'supplier_alamat', 'supplier_kontak');
-    
-    return DataTables::of($data)
+
+    return DataTables::of($query)
         ->addIndexColumn()
-        ->addColumn('aksi', function ($supplier) {
-            return '
-                <a href="' . route('supplier.show', $supplier->supplier_id) . '" class="btn btn-info btn-sm">Detail</a>
-                <a href="' . route('supplier.edit', $supplier->supplier_id) . '" class="btn btn-warning btn-sm">Edit</a>
-                <form method="POST" action="' . route('supplier.destroy', $supplier->supplier_id) . '" class="d-inline-block">
-                    ' . csrf_field() . method_field('DELETE') . '
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Yakin ingin menghapus?\');">Hapus</button>
-                </form>
-            ';
+        ->addColumn('aksi', function ($row) {
+            return '<a href="'.route('supplier.edit', $row->supplier_id).'" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="'.route('supplier.destroy', $row->supplier_id).'" method="POST" style="display:inline;">
+                        '.csrf_field().method_field('DELETE').'
+                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>';
         })
         ->rawColumns(['aksi'])
         ->make(true);
     }
 
-    
+
+    public function getSuppliers(Request $request)
+    {
+        $query = SupplierModel::query();
+
+        if ($request->supplier_id) {
+            $query->where('supplier_id', $request->supplier_id);
+        }
+
+        $data = $query->select('supplier_id', 'nama_supplier', 'supplier_kontak', 'alamat');
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($supplier) {
+                return '
+                    <a href="' . route('supplier.show', $supplier->supplier_id) . '" class="btn btn-info btn-sm">Detail</a>
+                    <a href="' . route('supplier.edit', $supplier->supplier_id) . '" class="btn btn-warning btn-sm">Edit</a>
+                    <form method="POST" action="' . route('supplier.destroy', $supplier->supplier_id) . '" class="d-inline-block">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Yakin ingin menghapus?\');">Hapus</button>
+                    </form>
+                ';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+    }
 
 
     // Menampilkan halaman tambah supplier
@@ -75,24 +95,23 @@ class SupplierController extends Controller
 
     // Menyimpan data supplier baru
     public function store(Request $request)
-{
-    $request->validate([
-        'supplier_kode' => 'required|string|unique:m_supplier,supplier_kode|max:50',
-        'supplier_nama' => 'required|string|max:100',
-        'supplier_alamat' => 'nullable|string',
-        'supplier_kontak' => 'nullable|string|max:50',
-    ]);
+    {
+        $request->validate([
+            'supplier_id' => 'required|string|unique:m_supplier,supplier_id|max:50',
+            'nama_supplier' => 'required|string|max:100',
+            'alamat' => 'nullable|string',
+            'supplier_kontak' => 'nullable|string|max:20',
+        ]);
 
-    SupplierModel::create([
-        'supplier_kode' => $request->supplier_kode,
-        'supplier_nama' => $request->supplier_nama,
-        'supplier_alamat' => $request->supplier_alamat,
-        'supplier_kontak' => $request->supplier_kontak,
-    ]);
+        SupplierModel::create([
+            'supplier_id' => $request->supplier_id,
+            'nama_supplier' => $request->nama_supplier,
+            'alamat' => $request->alamat,
+            'supplier_kontak' => $request->supplier_kontak,
+        ]);
 
-    return redirect('/supplier')->with('success', 'Data Supplier berhasil ditambahkan');
-}
-
+        return redirect('/supplier')->with('success', 'Data Supplier berhasil ditambahkan');
+    }
 
     // Menampilkan halaman edit supplier
     public function edit($id)
@@ -117,17 +136,17 @@ class SupplierController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'supplier_kode' => 'required|string|max:50|unique:m_supplier,supplier_kode,' . $id . ',supplier_id',
-            'supplier_nama' => 'required|string|max:100',
-            'supplier_alamat' => 'nullable|string',
+            'supplier_id' => 'required|string|max:50|unique:m_supplier,supplier_id,' . $id . ',supplier_id',
+            'nama_supplier' => 'required|string|max:100',
+            'alamat' => 'nullable|string',
             'supplier_kontak' => 'nullable|string|max:20',
         ]);
 
         $supplier = SupplierModel::findOrFail($id);
         $supplier->update([
-            'supplier_kode' => $request->supplier_kode,
-            'supplier_nama' => $request->supplier_nama,
-            'supplier_alamat' => $request->supplier_alamat,
+            'supplier_id' => $request->supplier_id,
+            'nama_supplier' => $request->nama_supplier,
+            'alamat' => $request->alamat,
             'supplier_kontak' => $request->supplier_kontak,
         ]);
 

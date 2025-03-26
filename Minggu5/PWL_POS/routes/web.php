@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
+//use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
@@ -97,7 +97,7 @@ Route::get('/levels/data', [LevelController::class, 'getData'])->name('levels.da
 
 Route::resource('kategori', KategoriController::class);
 Route::resource('supplier', SupplierController::class);
-Route::resource('product', ProductController::class);
+//Route::resource('product', ProductController::class);
 
 
 // Route::resource('levels', LevelController::class); // Menambahkan resource route untuk level

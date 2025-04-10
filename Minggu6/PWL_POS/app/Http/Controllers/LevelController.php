@@ -27,6 +27,26 @@ class LevelController extends Controller
         return view('level.index', compact('breadcrumb', 'level', 'page', 'activeMenu'));
     }
 
+    //index ajax
+    public function index_ajax()
+    {
+        $breadcrumb = (object) [
+            'title' => 'Daftar Level',
+            'list' => ['Home', 'Level']
+        ];
+
+        $page = (object) [
+            'title' => 'Daftar level yang terdaftar dalam sistem'
+        ];
+
+        $activeMenu = 'level';
+
+        // Pastikan variabel ini dikirim ke view
+        $level = LevelModel::all();
+
+        return view('level.index_ajax', compact('breadcrumb', 'page', 'activeMenu', 'level'));
+    }
+
     // Mengambil data level dalam format JSON untuk DataTables
     public function getLevels(Request $request)
     {
@@ -155,4 +175,107 @@ class LevelController extends Controller
     return view('level.show', compact('breadcrumb', 'page', 'level', 'activeMenu'));
     }
 
+    // Tambah Data ajax
+    public function create_ajax()
+    {
+        return view('level.create_ajax');
+    }
+
+
+    // Store ajax
+    public function store_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'level_kode' => 'required|string|max:5',
+                'level_nama' => 'required|string|max:100',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors(),
+                ]);
+            }
+            LevelModel::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Data level berhasil disimpan',
+            ]);
+        }
+        return redirect('/');
+    }
+
+     // Edit ajax
+     public function edit_ajax(string $id)
+     {
+         $level = LevelModel::find($id);
+         return view('level.edit_ajax', ['level' => $level]);
+ 
+     }
+
+       // Update ajax
+    public function update_ajax(Request $request, string $id)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'level_kode' => 'required|string|max:5',
+                'level_nama' => 'required|string|max:100',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors(),
+                ]);
+            }
+            $check = LevelModel::find($id);
+            if ($check) {
+                $check->update($request->all());
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data level berhasil diubah',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data level tidak ditemukan',
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+     // Confirm ajax
+     public function confirm_ajax(string $id)
+     {
+         $level = LevelModel::find($id);
+ 
+         return view('level.confirm_ajax', ['level' => $level]);
+     }
+ 
+     // Delete ajax
+     public function delete_ajax(Request $request, string $id)
+     {
+         if ($request->ajax() || $request->wantsJson()) {
+             $level = LevelModel::find($id);
+             if ($level) {
+                 $level->delete();
+                 return response()->json([
+                     'status' => true,
+                     'message' => 'Data level berhasil dihapus',
+                 ]);
+             } else {
+                 return response()->json([
+                     'status' => false,
+                     'message' => 'Data level tidak ditemukan',
+                 ]);
+             }
+         }
+         return redirect('/');
+     }
 }

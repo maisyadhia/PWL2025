@@ -1,62 +1,74 @@
 @extends('layouts.template')
 
 @section('content')
-    <div class="card card-outline card-primary">
-        <div class="card-header">
-            <h3 class="card-title">{{ $page->title ?? 'Daftar Supplier' }}</h3>
-            <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ route('supplier.create') }}">Tambah Supplier</a>
-            </div>
+<div class="card card-outline card-primary">
+    <div class="card-header">
+        <h3 class="card-title">{{ $page->title ?? 'Daftar Supplier' }}</h3>
+        <div class="card-tools">
+            <a class="btn btn-sm btn-primary mt-1" href="{{ route('supplier.create') }}">Tambah Supplier</a>
+            <button onclick="modalAction('{{ url('supplier/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
         </div>
+    </div>
 
-        <div class="card-body">
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+    <div class="card-body">
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group row">
-                        <label class="col-1 control-label col-form-label">Filter:</label>
-                        <div class="col-3">
-                            <select class="form-control" id="supplier_id" name="supplier_id">
-                                <option value="">- Semua Supplier -</option>
-                                @foreach($supplier as $item)
-                                    <option value="{{ $item->supplier_id }}">{{ $item->nama_supplier }}</option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">Pilih supplier untuk filter</small>
-                        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <label class="col-1 control-label col-form-label">Filter:</label>
+                    <div class="col-3">
+                        <select class="form-control" id="supplier_id" name="supplier_id">
+                            <option value="">- Semua Supplier -</option>
+                            @foreach($supplier as $item)
+                                <option value="{{ $item->supplier_id }}">{{ $item->nama_supplier }}</option>
+                            @endforeach
+                        </select>
+                        <small class="form-text text-muted">Pilih supplier untuk filter</small>
                     </div>
                 </div>
             </div>
-
-            <table class="table table-bordered table-striped table-hover table-sm" id="supplierTable">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Supplier</th>
-                        <th>Kontak</th>
-                        <th>Alamat</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-            </table>
         </div>
+
+        <table class="table table-bordered table-striped table-hover table-sm" id="supplierTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Supplier</th>
+                    <th>Kontak</th>
+                    <th>Alamat</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+        </table>
     </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog"
+    data-backdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true">
+</div>
 @endsection
 
 @push('css')
-<!-- Tambahkan CSS jika diperlukan -->
+<!-- Tambahkan CSS jika perlu -->
 @endpush
 
 @push('js')
 <script>
-    $(document).ready(function() {
+    function modalAction(url = '') {
+        $('#myModal').load(url, function () {
+            $('#myModal').modal('show');
+        });
+    }
+
+    $(document).ready(function () {
         var dataSupplier = $('#supplierTable').DataTable({
             processing: true,
             serverSide: true,
@@ -80,7 +92,13 @@
             ]
         });
 
-        $('#supplier_id').change(function() {
+        // Reload saat filter diganti
+        $('#supplier_id').change(function () {
+            dataSupplier.ajax.reload();
+        });
+
+        // Reload table ketika modal ditutup
+        $('#myModal').on('hidden.bs.modal', function () {
             dataSupplier.ajax.reload();
         });
     });

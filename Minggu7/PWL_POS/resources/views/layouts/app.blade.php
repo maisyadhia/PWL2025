@@ -47,13 +47,32 @@
 {{-- Add common JavaScript/jQuery code --}}
 @push('js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
-    
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-   
-@endpush
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        $(document).ready(function () {
+            $('#logout-btn').on('click', function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Yakin mau logout?',
+                    text: "Kamu akan keluar dari sesi ini.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, logout',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#logout-form').submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
 @stack('scripts')
 
 {{-- Add common CSS customizations --}}

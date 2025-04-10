@@ -85,5 +85,16 @@
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
+
+    <li class="nav-item">
+      <form action="{{ route('logout') }}" method="POST" id="logout-form">
+          @csrf
+          <button type="submit" class="nav-link text-danger border-0 bg-transparent w-100 text-left" id="logout-btn">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+          </button>
+      </form>
+  </li>
+  
 </div>
 

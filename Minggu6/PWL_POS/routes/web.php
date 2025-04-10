@@ -9,9 +9,6 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 
-
-
-
 // Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 

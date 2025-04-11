@@ -6,6 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\LevelModel;
+
 
 class User extends Authenticatable
 {
@@ -45,4 +48,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // public function level()
+    // {
+    //     return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    // }
+
 }

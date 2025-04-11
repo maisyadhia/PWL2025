@@ -105,7 +105,7 @@
     $(document).ready(function () {
         $("#form-login").validate({
             rules: {
-                username: {required: true, minlength: 4, maxlength: 20},
+                username: {required: true, minlength: 3, maxlength: 20},
                 password: {required: true, minlength: 5, maxlength: 20}
             },
             submitHandler: function (form) {

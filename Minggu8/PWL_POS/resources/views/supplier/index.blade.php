@@ -5,7 +5,13 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title ?? 'Daftar Supplier' }}</h3>
         <div class="card-tools">
-            <a class="btn btn-sm btn-primary mt-1" href="{{ route('supplier.create') }}">Tambah Supplier</a>
+            <button onclick="modalAction('{{ url('/supplier/import') }}')" class="btn btn-info btn-sm mt-1">
+                <i class="fas fa-plus"></i> Import supplier
+            </button>                
+            {{-- <a class="btn btn-sm btn-primary mt-1" href="{{ url('supplier/create') }}">Tambah</a> --}}
+            <a href="{{ url('/supplier/export_excel') }}" class="btn btn-sm btn-primary mt-1"><i class="fa fa-file- excel"></i> Export supplier</a>
+            <a href="{{ url('/supplier/export_pdf') }}" class="btn btn-sm btn-warning mt-1"><i class="fa fa-file- pdf"></i> Export PDF supplier</a>
+            {{-- <a class="btn btn-sm btn-primary mt-1" href="{{ route('supplier.create') }}">Tambah Supplier</a> --}}
             <button onclick="modalAction('{{ url('supplier/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
         </div>
     </div>

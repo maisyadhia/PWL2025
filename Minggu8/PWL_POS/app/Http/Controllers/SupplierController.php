@@ -6,6 +6,8 @@ use App\Models\SupplierModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SupplierController extends Controller
 {
@@ -298,5 +300,73 @@ class SupplierController extends Controller
         }
         return redirect('/');
     }
-    
+    public function export_excel()
+    {
+        // Ambil data supplier
+        $supplier = SupplierModel::select('supplier_nama', 'supplier_telepon', 'supplier_alamat')
+            ->orderBy('supplier_nama')
+            ->get();
+
+        // Load PhpSpreadsheet
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header kolom
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama Supplier');
+        $sheet->setCellValue('C1', 'Telepon');
+        $sheet->setCellValue('D1', 'Alamat');
+
+        $sheet->getStyle('A1:D1')->getFont()->setBold(true);
+
+        // Isi data
+        $no = 1;
+        $baris = 2;
+        foreach ($supplier as $s) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $s->supplier_nama);
+            $sheet->setCellValue('C' . $baris, $s->supplier_telepon);
+            $sheet->setCellValue('D' . $baris, $s->supplier_alamat);
+            $baris++;
+            $no++;
+        }
+
+        // Auto-size kolom
+        foreach (range('A', 'D') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $sheet->setTitle('Data Supplier');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Supplier ' . date('Y-m-d H-i-s') . '.xlsx';
+
+        // Header response
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit();
+    }
+
+    public function export_pdf()
+    {
+        ini_set('max_execution_time', 300); // biar tidak timeout
+        // Ambil data supplier lengkap dengan kontak dan alamat
+        $supplier = SupplierModel::select('supplier_nama', 'supplier_telepon', 'supplier_alamat')
+            ->orderBy('supplier_nama')
+            ->get();
+
+        // Load ke view dengan data yang dibutuhkan
+        $pdf = Pdf::loadView('supplier.export_pdf', ['supplier' => $supplier]);
+        $pdf->setPaper('a4', 'portrait');
+        $pdf->setOption(['isRemoteEnabled' => true]);
+
+        return $pdf->stream('Data Supplier ' . date('Y-m-d H:i:s') . '.pdf');
+    }
 }

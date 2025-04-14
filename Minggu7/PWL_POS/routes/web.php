@@ -27,23 +27,46 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [WelcomeController:: class, 'index']);
 
-    Route::middleware(['authorize:ADM'])->group(function () {
- 
-        Route::get('/level', [LevelController::class, 'index']);
+    // Route::middleware(['authorize:ADM'])->prefix('level')->group(function () {
+    //     Route::get('/', [LevelController::class, 'index'])->name('level.index'); // Menampilkan daftar level
+    //     Route::post('/list', [LevelController::class, 'getLevels'])->name('level.list'); // DataTables JSON
+    //     Route::get('/create', [LevelController::class, 'create'])->name('level.create'); // Form tambah
+    //     Route::post('/', [LevelController::class, 'store'])->name('level.store'); // Simpan data baru
+    //     Route::get('/create_ajax', [LevelController::class, 'create_ajax']); // Menampilkan halaman form tambah level Ajax
+    //     Route::post('/ajax', [LevelController::class, 'store_ajax']); // Menyimpan data level baru Ajax
+    //     Route::get('/{id}', [LevelController::class, 'show'])->name('level.show'); // Menampilkan detail level
+    //     Route::get('/{id}/show_ajax', [LevelController::class, 'show_ajax']);
+    //     Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax'])->name('level.edit_ajax'); // Form edit (AJAX)
+    //     Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax'])->name('level.update_ajax'); // Simpan perubahan (AJAX)
+    //     Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax'])->name('level.confirm_ajax'); 
+    //     Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax'])->name('level.delete_ajax');
+    //     Route::get('/{id}/edit', [LevelController::class, 'edit'])->name('level.edit'); // Form edit
+    //     Route::put('/{id}', [LevelController::class, 'update'])->name('level.update'); // Simpan perubahan
+    //     Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy'); // Hapus level
+    //     Route::get('/import', [LevelController::class, 'import']);
+    //     Route::post('/import_ajax', [LevelController::class, 'import_ajax']);
+    //     Route::get('/export_excel', [LevelController::class, 'export_excel']);
+    //     Route::get('/export_pdf', [LevelController::class, 'export_pdf']);
+    // });
 
-        Route::post('/level/list', [LevelController::class, 'list']); // untuk list json datatables
-
-        Route::get('/level/create', [LevelController::class, 'create']);
-
-        Route::post('/level', [LevelController::class, 'store']);
-
-        Route::get('/level/{id}/edit', [LevelController::class, 'edit']); // untuk tampilkan form edit
-        Route::put('/level/{id}', [LevelController::class, 'update']); // untuk proses update data
-
-        Route::delete('/level/{id}', [LevelController::class, 'destroy']); // untuk proses hapus data
-    
-    
-
+    Route::middleware(['authorize:ADM,MNG'])->prefix('level')->group(function () {
+        Route::get('/', [LevelController::class, 'index'])->name('level.index'); // Menampilkan daftar level
+        Route::post('/list', [LevelController::class, 'getLevels'])->name('level.list'); // DataTables JSON
+        Route::get('/create', [LevelController::class, 'create'])->name('level.create'); // Form tambah
+        Route::post('/', [LevelController::class, 'store'])->name('level.store'); // Simpan data baru
+        Route::get('/create_ajax', [LevelController::class, 'create_ajax']); // Menampilkan halaman form tambah level Ajax
+        Route::post('/ajax', [LevelController::class, 'store_ajax']); // Menyimpan data level baru Ajax
+        Route::get('/{id}/edit', [LevelController::class, 'edit'])->name('level.edit');
+        Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax'])->name('level.edit_ajax');
+        Route::put('/{id}', [LevelController::class, 'update'])->name('level.update');
+        Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax'])->name('level.update_ajax');
+        Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax'])->name('level.confirm_ajax'); 
+        Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax'])->name('level.delete_ajax');
+        Route::get('/{id}', [LevelController::class, 'show'])->name('level.show'); // Menampilkan detail level
+        //Route::get('/{id}/edit', [LevelController::class, 'edit'])->name('level.edit'); // Form edit
+        Route::put('/{id}', [LevelController::class, 'update'])->name('level.update'); // Simpan perubahan
+        Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy'); // Hapus level
+    });
     // Route::middleware(['auth', 'authorize:ADM'])->group(function () {
 
     //     Route::prefix('level')->group(function () {
@@ -66,7 +89,7 @@ Route::middleware(['auth'])->group(function () {
     //     Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy'); // Hapus level
     // });
 
-    });
+    // });
 
     //Route::middleware(['authorize:ADM,MNG'])->prefix('user')->group(function (){
     Route::group(['prefix' => 'user'], function () {

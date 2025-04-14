@@ -18,8 +18,8 @@ Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'store_user'])->name('store_user');
+Route::get('/register',[AuthController::class, 'register'])->name('register');
+Route::post('/register',[AuthController::class, 'store_user'])->name('store_user');
 
 
 // Protected routes

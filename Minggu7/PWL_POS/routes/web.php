@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     //     Route::get('/export_pdf', [LevelController::class, 'export_pdf']);
     // });
 
-    Route::middleware(['authorize:ADM,MNG,STF'])->prefix('level')->group(function () {
+    Route::middleware(['authorize:ADM,MNG,'])->prefix('level')->group(function () {
         Route::get('/', [LevelController::class, 'index'])->name('level.index'); // Menampilkan daftar level
         Route::post('/list', [LevelController::class, 'getLevels'])->name('level.list'); // DataTables JSON
         Route::get('/create', [LevelController::class, 'create'])->name('level.create'); // Form tambah
@@ -66,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{id}', [LevelController::class, 'update'])->name('level.update'); // Simpan perubahan
         Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy'); // Hapus level
     });
-    
     // Route::middleware(['auth', 'authorize:ADM'])->group(function () {
 
     //     Route::prefix('level')->group(function () {
@@ -91,7 +90,7 @@ Route::middleware(['auth'])->group(function () {
 
     // });
 
-    Route::middleware(['authorize:ADM,MNG,STF'])->prefix('user')->group(function (){
+    Route::middleware(['authorize:ADM,MNG'])->prefix('user')->group(function (){
     //Route::group(['prefix' => 'user'], function () {
         Route::get ('/', [UserController::class, 'index']);// menampilkan halaman awal user
         Route::post('/list', [UserController::class,'list' ]);// menampilkan data user dalam bentuk json untuk datatables
@@ -110,7 +109,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     
-    Route::middleware(['authorize:ADM,MNG,STF'])->prefix('kategori')->group(function () {
+    Route::middleware(['authorize:ADM,MNG'])->prefix('kategori')->group(function () {
     //Route::group(['prefix' => 'kategori'], function () {
         Route::get('/', [KategoriController::class, 'index'])->name('kategori.index'); // Menampilkan daftar kategori
         Route::post('/list', [KategoriController::class, 'getKategori'])->name('kategori.list'); // Data JSON untuk DataTables
@@ -128,7 +127,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy'); // Hapus kategori
     });
 
-    Route::middleware(['authorize:ADM,MNG,STF'])->prefix('barang')->group(function () {
+    Route::middleware(['authorize:ADM,MNG'])->prefix('barang')->group(function () {
     //Route::group(['prefix'=>'barang'],function(){
         Route::get('/',[BarangController::class,'index']);
         Route::post('/list',[BarangController::class,'list']);
@@ -146,7 +145,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}',[BarangController::class,'destroy']);
     });
 
-    Route::middleware(['authorize:ADM,MNG,STF'])->prefix('supplier')->group(function () {
+    Route::middleware(['authorize:ADM,MNG'])->prefix('supplier')->group(function () {
     //Route::group(['prefix' => 'supplier'], function () {
         Route::get('/', [SupplierController::class, 'index'])->name('supplier.index'); // Menampilkan daftar supplier
         Route::post('supplier/list', [SupplierController::class, 'getSuppliers'])->name('supplier.list'); // Data JSON untuk DataTables
@@ -163,5 +162,12 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{id}', [SupplierController::class, 'update'])->name('supplier.update'); // Simpan perubahan supplier
         Route::delete('/{id}', [SupplierController::class, 'destroy'])->name('supplier.destroy'); // Hapus supplier
     });
+
+    // Route::resource('levels', LevelController::class)->except(['create', 'edit']); 
+    // Route::get('/levels/data', [LevelController::class, 'getData'])->name('levels.data');
+
+    // Route::resource('kategori', KategoriController::class);
+    // Route::resource('supplier', SupplierController::class);
+
 });
 

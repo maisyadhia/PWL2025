@@ -144,6 +144,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/edit', [BarangController::class,'edit']);
         Route::put('/{id}', [BarangController::class,'update']);
         Route::delete('/{id}',[BarangController::class,'destroy']);
+        Route::get('/import', [BarangController::class, 'import']);
+        Route::post('/import_ajax', [BarangController::class, 'import_ajax']);
     });
 
     Route::middleware(['authorize:ADM,MNG,STF'])->prefix('supplier')->group(function () {

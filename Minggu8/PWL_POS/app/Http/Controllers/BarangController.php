@@ -7,21 +7,68 @@
  use Yajra\DataTables\DataTables;
  use App\Models\KategoriModel;
  use Illuminate\Support\Facades\Validator;
+ use App\Models\Kategori;
+
    
  class BarangController extends Controller {
-     public function index(){
-         $breadcrumb = (object) [
-             'title' => 'Daftar barang',
-             'list' => ['Home', 'barang']
-         ];
-      
-         $page = (object) [
-             'title' => 'Daftar barang yang terdaftar dalam sistem'
-         ];
-      
-         $activeMenu = 'barang';
-             return view('barang.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
-    }
+    public function index()
+{
+    $breadcrumb = (object) [
+        'title' => 'Daftar barang',
+        'list' => ['Home', 'barang']
+    ];
+
+    $page = (object) [
+        'title' => 'Daftar barang yang terdaftar dalam sistem'
+    ];
+
+    // Ambil semua kategori
+    $kategori = KategoriModel::all(); 
+
+    // Ambil data barang dengan kategori terkait
+    $barang = BarangModel::with('kategori')->get(); 
+
+    // Menambahkan nomor urut ke setiap item barang
+    $barang = $barang->map(function ($item, $index) {
+        $item->No_Urut = $index + 1; // Menambahkan nomor urut
+        return $item;
+    });
+
+    // Kirim data ke view
+    return view('barang.index', [
+        'breadcrumb' => $breadcrumb,
+        'page' => $page,
+        'activeMenu' => 'barang',
+        'kategori' => $kategori,
+        'barang' => $barang
+    ]);
+}
+
+public function getBarangList(Request $request)
+{
+    // Cek filter kategori jika ada
+    $filterKategori = $request->input('filter_kategori');
+
+    // Ambil data barang dengan filter kategori
+    $barang = BarangModel::with('kategori')
+        ->when($filterKategori, function($query, $filterKategori) {
+            return $query->where('kategori_id', $filterKategori);
+        })
+        ->get();
+
+    // Menambahkan nomor urut ke setiap item barang
+    $barang = $barang->map(function ($item, $index) {
+        $item->No_Urut = $index + 1; // Menambahkan nomor urut
+        return $item;
+    });
+
+    // Mengirimkan data ke DataTables
+    return response()->json([
+        'data' => $barang
+    ]);
+}
+
+    
 
      public function list(){
         $barang = BarangModel::all();
@@ -263,5 +310,67 @@
          }
          return redirect('/');
      }
- 
+
+     public function import()
+    {
+        return view('barang.import');
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'file_barang' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            $file = $request->file('file_barang');
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $data = $sheet->toArray(null, false, true, true);
+
+            $insert = [];
+            if (count($data) > 1) {
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) {
+                        $insert[] = [
+                            'kategori_id' => $value['A'],
+                            'barang_kode' => $value['B'],
+                            'barang_nama' => $value['C'],
+                            'harga_beli' => $value['D'],
+                            'harga_jual' => $value['E'],
+                            'created_at' => now(),
+                        ];
+                    }
+                }
+
+                if (count($insert) > 0) {
+                    BarangModel::insertOrIgnore($insert);
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil diimport'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Tidak ada data yang diimport'
+                ]);
+            }
+        }
+
+        return redirect('/');
+    }
 }

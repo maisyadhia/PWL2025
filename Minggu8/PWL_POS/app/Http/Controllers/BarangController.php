@@ -8,7 +8,7 @@
  use App\Models\KategoriModel;
  use Illuminate\Support\Facades\Validator;
  use App\Models\Kategori;
-
+ use Barryvdh\DomPDF\Facade\Pdf;
    
  class BarangController extends Controller {
     public function index()
@@ -429,4 +429,21 @@ public function getBarangList(Request $request)
          $writer->save('php://output');
          exit();
         }
+        public function export_pdf()
+     {
+         ini_set('max_execution_time', 300); // tambah waktu maksimal jadi 5 menit
+     
+         $barang = BarangModel::select('kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+             ->orderBy('kategori_id')
+             ->orderBy('barang_kode')
+             ->with('kategori')
+             ->get();
+     
+         $pdf = Pdf::loadView('barang.export_pdf', ['barang' => $barang]);
+         $pdf->setPaper('a4', 'portrait');
+         $pdf->setOption(['isRemoteEnabled' => true]);
+         $pdf->render();
+     
+         return $pdf->stream('Data Barang ' . date('Y-m-d H:i:s') . '.pdf');
+     }
 }

@@ -106,6 +106,4 @@ class AuthController extends Controller
         //return redirect('/')->with('success', 'Registrasi berhasil');
         return redirect('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
-    
-
 }

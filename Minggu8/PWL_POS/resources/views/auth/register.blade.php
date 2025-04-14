@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
 </head>
-
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="card card-outline card-primary">

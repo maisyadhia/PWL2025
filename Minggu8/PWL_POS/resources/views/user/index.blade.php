@@ -4,6 +4,11 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
+            <div class="text-right mb-3">
+                <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-user"></i> Profil Saya
+                </a>
+            </div>   
             <div class="card-tools">
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('user/create') }}">Tambah</a>
                 <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>

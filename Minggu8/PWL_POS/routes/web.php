@@ -8,6 +8,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 
 Route::pattern('id', '[0-9]+');
 
@@ -25,7 +26,19 @@ Route::post('/register',[AuthController::class, 'store_user'])->name('store_user
 // Protected routes
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/', [WelcomeController:: class, 'index']);
+    Route::get('/', [WelcomeController:: class, 'index'])->name('dashboard');;
+
+    // Route::get('/', function () {
+    //     return view('dashboard'); // atau view lain yang kamu gunakan
+    // })->name('dashboard');
+    
+    
+    
+     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+     
+    
+    
 
     // Route::middleware(['authorize:ADM'])->prefix('level')->group(function () {
     //     Route::get('/', [LevelController::class, 'index'])->name('level.index'); // Menampilkan daftar level
@@ -150,6 +163,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/import_ajax', [BarangController::class, 'import_ajax']);
         Route::get('/export_excel', [BarangController::class, 'export_excel']);
         Route::get('/export_pdf', [BarangController::class, 'export_pdf']);
+        
     });
 
     Route::middleware(['authorize:ADM,MNG,STF'])->prefix('supplier')->group(function () {

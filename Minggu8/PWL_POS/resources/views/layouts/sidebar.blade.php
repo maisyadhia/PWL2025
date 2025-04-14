@@ -1,36 +1,56 @@
 <div class="sidebar">
-    <!-- Sidebar user (optional) -->
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+  <!-- Sidebar user panel (fixed structure with dynamic content) -->
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          @auth
+          <img src="{{ auth()->user()->foto ? asset(auth()->user()->foto) : asset('dist/img/user2-160x160.jpg') }}" 
+     class="img-circle elevation-2" alt="User Image">
+          @else
+          <img src="{{ asset('dist/img/user2-160x160.jpg') }}" 
+               class="img-circle elevation-2" alt="User Image">
+          @endauth
       </div>
       <div class="info">
-        <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="{{ route('profile.edit') }}" class="d-block">
+              @auth
+                  {{ auth()->user()->nama ?? 'Alexander Pierce' }}
+              @else
+                  Alexander Pierce
+              @endauth
+          </a>
       </div>
-    </div>
+  </div>
 
-    <!-- SidebarSearch Form -->
-      <div class="form-inline mt-2">
-        <div class="input-group" data-widget="sidebar-search">
+  <!-- SidebarSearch Form -->
+  <div class="form-inline mt-2">
+      <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
+              <button class="btn btn-sidebar">
+                  <i class="fas fa-search fa-fw"></i>
+              </button>
           </div>
-        </div>
       </div>
-        
+  </div>
 
-    <!-- Sidebar Menu -->
-    <nav class="mt-2">
+  <!-- Sidebar Menu -->
+  <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-item">
-          <a href="{{ url('/') }}" class="nav-link {{ ($activeMenu == 'dashboard')? 'active' : '' }} ">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>Dashboard</p>
-          </a>
-        </li>
+          <li class="nav-item">
+              <a href="{{ url('/') }}" class="nav-link {{ ($activeMenu == 'dashboard')? 'active' : '' }} ">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>Dashboard</p>
+              </a>
+          </li>
+
+          <!-- Menu Profil Saya -->
+          <li class="nav-header">Akun</li>
+          <li class="nav-item">
+              <a href="{{ route('profile.edit') }}" class="nav-link {{ ($activeMenu == 'profile') ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-user-circle"></i>
+                  <p>Profil Saya</p>
+              </a>
+          </li>
 
         <!-- Supplier Data Section -->
         <li class="nav-header">Data Supplier</li>

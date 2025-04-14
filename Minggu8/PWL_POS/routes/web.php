@@ -126,6 +126,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit'); // Form edit kategori
         Route::put('/{id}', [KategoriController::class, 'update'])->name('kategori.update'); // Simpan perubahan kategori
         Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy'); // Hapus kategori
+        Route::get('/import', [KategoriController::class, 'import']);
+        Route::post('/import_ajax', [KategoriController::class, 'import_ajax']);
     });
 
     Route::middleware(['authorize:ADM,MNG,STF'])->prefix('barang')->group(function () {

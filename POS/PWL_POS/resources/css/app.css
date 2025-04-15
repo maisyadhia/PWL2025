@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source "../**/*.blade.php";
@@ -9,4 +13,44 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Warna Sidebar */
+.sidebar {
+    background: linear-gradient(180deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+}
+
+.sidebar .nav-pills .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-left: 4px solid white;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sidebar .user-panel {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Warna Header */
+.main-header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #4f46e5;
+}
+
+/* Warna Footer */
+.main-footer {
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
 }

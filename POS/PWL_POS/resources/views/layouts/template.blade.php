@@ -6,6 +6,8 @@
   <title>{{config('app name', 'PWL Laravel Starter Code') }}</title>
 
   <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- Untuk mengirimkan token Laravel CSRF pada setiap request ajax -->
+  {{-- <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet"> --}}
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">

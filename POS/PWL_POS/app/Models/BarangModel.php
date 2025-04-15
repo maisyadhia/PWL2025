@@ -10,7 +10,7 @@
          protected $table = 'm_barang';
          protected $primaryKey = 'barang_id';
       
-         protected $fillable = ['barang_kode', 'barang_nama', 'kategori_id', 'harga_beli', 'harga_jual'];
+         protected $fillable = ['barang_kode', 'barang_nama', 'kategori_id', 'harga_beli', 'harga_jual', 'stok'];
       
          public function kategori(): BelongsTo {
              return $this->belongsTo(KategoriModel::class, 'kategori_id', 'kategori_id');

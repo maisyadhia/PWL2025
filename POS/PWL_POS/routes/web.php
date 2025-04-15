@@ -9,6 +9,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StokController;
+use App\Http\Controllers\TransaksiController;
 
 Route::pattern('id', '[0-9]+');
 
@@ -35,6 +37,34 @@ Route::middleware(['auth'])->group(function () {
      Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
      Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
      
+    Route::middleware(['authorize:ADM,MNG,STF'])->group(function () {
+        // Stok Barang
+        Route::prefix('stok')->group(function () {
+            Route::get('/', [StokController::class, 'index'])->name('stok.index');
+            Route::post('/list', [StokController::class, 'getStok'])->name('stok.list');
+            Route::post('/ajax', [StokController::class, 'store_ajax'])->name('stok.store_ajax');
+            Route::get('/create_ajax', [StokController::class, 'create_ajax']);
+            Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']);
+            Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax'])->name('stok.update_ajax');
+            Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']);
+            Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax'])->name('stok.delete_ajax');
+            Route::get('/import', [StokController::class, 'import']);
+            Route::post('/import_ajax', [StokController::class, 'import_ajax']);
+            Route::get('/export_excel', [StokController::class, 'export_excel']);
+            Route::get('/export_pdf', [StokController::class, 'export_pdf']);
+        });
+        // Transaksi Penjualan
+        Route::prefix('transaksi')->group(function() {
+            Route::get('/', [TransaksiController::class, 'index'])->name('transaksi.index');
+            Route::post('/list', [TransaksiController::class, 'list'])->name('transaksi.list');
+            Route::get('/create_ajax', [TransaksiController::class, 'create_ajax'])->name('transaksi.create_ajax');
+            Route::post('/ajax', [TransaksiController::class, 'store_ajax'])->name('transaksi.store_ajax');
+            Route::get('/{id}/show_ajax', [TransaksiController::class, 'show_ajax'])->name('transaksi.show_ajax');
+            Route::get('/{id}/edit_ajax', [TransaksiController::class, 'edit_ajax'])->name('transaksi.edit_ajax');
+            Route::put('/{id}/update_ajax', [TransaksiController::class, 'update_ajax'])->name('transaksi.update_ajax');
+            Route::delete('/{id}/delete_ajax', [TransaksiController::class, 'delete_ajax'])->name('transaksi.delete_ajax');
+        });
+    });
     // Route::middleware(['authorize:ADM'])->prefix('level')->group(function () {
     //     Route::get('/', [LevelController::class, 'index'])->name('level.index'); // Menampilkan daftar level
     //     Route::post('/list', [LevelController::class, 'getLevels'])->name('level.list'); // DataTables JSON

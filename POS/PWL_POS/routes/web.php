@@ -56,13 +56,19 @@ Route::middleware(['auth'])->group(function () {
         // Transaksi Penjualan
         Route::prefix('transaksi')->group(function() {
             Route::get('/', [TransaksiController::class, 'index'])->name('transaksi.index');
-            Route::post('/list', [TransaksiController::class, 'list'])->name('transaksi.list');
+           Route::post('/list', [TransaksiController::class, 'list'])->name('transaksi.list');
             Route::get('/create_ajax', [TransaksiController::class, 'create_ajax'])->name('transaksi.create_ajax');
             Route::post('/ajax', [TransaksiController::class, 'store_ajax'])->name('transaksi.store_ajax');
             Route::get('/{id}/show_ajax', [TransaksiController::class, 'show_ajax'])->name('transaksi.show_ajax');
             Route::get('/{id}/edit_ajax', [TransaksiController::class, 'edit_ajax'])->name('transaksi.edit_ajax');
             Route::put('/{id}/update_ajax', [TransaksiController::class, 'update_ajax'])->name('transaksi.update_ajax');
             Route::delete('/{id}/delete_ajax', [TransaksiController::class, 'delete_ajax'])->name('transaksi.delete_ajax');
+            Route::post('/transaksi/store', [TransaksiController::class, 'store'])->name('transaksi.store');
+            Route::post('/transaksi/store-ajax', [TransaksiController::class, 'storeAjax'])->name('transaksi.store_ajax');
+            Route::get('/api/barang/{id}', function($id) {
+                return App\Models\BarangModel::findOrFail($id);
+            });
+
         });
     });
     // Route::middleware(['authorize:ADM'])->prefix('level')->group(function () {

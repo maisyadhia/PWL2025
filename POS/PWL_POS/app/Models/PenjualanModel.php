@@ -20,15 +20,20 @@ class PenjualanModel extends Model
         'penjualan_tanggal',
     ];
 
+    // Di PenjualanModel.php
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(UserModel::class, 'user_id')->withDefault([
+            'nama' => 'Tidak ada kasir',
+            'level' => 'Unknown'
+        ]);
     }
 
     public function details()
-    {
-        return $this->hasMany(PenjualanDetailModel::class, 'penjualan_id');
-    }
+{
+    return $this->hasMany(PenjualanDetailModel::class, 'penjualan_id', 'penjualan_id');
+}
+
 
     // Accessor untuk total transaksi
     public function getTotalAttribute()

@@ -27,8 +27,9 @@ class PenjualanDetailModel extends Model
 
     public function barang()
     {
-        return $this->belongsTo(BarangModel::class, 'barang_id');
+        return $this->belongsTo(BarangModel::class, 'barang_id', 'barang_id');
     }
+
 
     // Accessor untuk subtotal
     public function getSubtotalAttribute()

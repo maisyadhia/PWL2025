@@ -17,7 +17,8 @@
     </div>
 </div>
 @else
-<form action="{{ url('/transaksi/' . $transaksi->penjualan_id . '/update_ajax') }}" method="POST" id="form-edit-transaksi">
+
+<form action="{{ route('transaksi.update_ajax', $transaksi->penjualan_id) }}" method="POST" id="form-edit-transaksi">
     @csrf
     @method('PUT')
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -84,6 +85,21 @@ $(document).ready(function() {
                             icon: 'error',
                             title: 'Terjadi Kesalahan',
                             text: response.message
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    var response = xhr.responseJSON;
+                    if (xhr.status == 422) {
+                        $('.error-text').text('');
+                        $.each(response.errors, function(prefix, val) {
+                            $('#error-' + prefix).text(val[0]);
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan',
+                            text: response?.message || 'Terjadi kesalahan saat menyimpan data'
                         });
                     }
                 }

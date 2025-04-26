@@ -8,9 +8,12 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
+        "illuminate/auth": "^12.0",
+        "illuminate/http": "^12.0",
         "jeroennoten/laravel-adminlte": "^3.15",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "php-open-source-saver/jwt-auth": "^2.8",
         "phpoffice/phpspreadsheet": "^4.1",
         "yajra/laravel-datatables": "^12.0",
         "yajra/laravel-datatables-oracle": "^12.0"

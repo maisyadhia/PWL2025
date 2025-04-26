@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\LoginController;
 
 Route::post('/register', RegisterController::class)->name('register');
 Route::post('/login', LoginController::class)->name('login');
-
+Route::post ('/logout', App\Http\Controllers\Api\LogoutController:: Class) ->name('logout');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
